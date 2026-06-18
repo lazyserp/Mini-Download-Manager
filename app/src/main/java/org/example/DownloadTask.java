@@ -2,10 +2,12 @@ package org.example;
 
 public class DownloadTask implements Runnable{
     private String fileName;
+    private DownloadManager downloadManager;
 
-    DownloadTask(String fileName)
+    DownloadTask(String fileName,DownloadManager downloadManager)
     {
         this.fileName = fileName;
+        this.downloadManager = downloadManager;
     }
 
     public void run()
@@ -43,6 +45,6 @@ public class DownloadTask implements Runnable{
 
         // }
 
-
+        downloadManager.incrementCompletedDownloads();
     }
 }

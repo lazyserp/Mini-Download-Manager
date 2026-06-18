@@ -3,42 +3,53 @@
  */
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class App {
     public static void main(String[] args) {
+
+        DownloadManager manager = new DownloadManager();
 
         System.out.println("Current Thread: " + Thread.currentThread().getName());
         System.out.println();
         System.out.println("Started Downloads !");
         System.out.println();
 
-       Thread t1 = new Thread(new DownloadTask("movie.mp4"));
-       Thread t2 = new Thread(new DownloadTask("photo.png"));
-       Thread t3 = new Thread(new DownloadTask("document.pdf"));
+        // FOr creating 100s of Threads
+        List<Thread> threads = new ArrayList<>();
 
-
-       // .start() creates own Threads and it runs concurrently
-       t1.start();
-       t2.start();
-       t3.start();
-
-       // .run() makes main create Thread and it runs sequentially rather than concurrently
-        //    t1.run();
-        //    t2.run();
-        //    t3.run();
-
-        // t[i].join() makes the main thread wait for other threads to finish 
-        try
+        //Create All Threads
+        for(int i =0 ; i < 1000 ;i++)
         {
-            t1.join();
-            t2.join();
-            t3.join();
+            Thread thread = new Thread(new DownloadTask("file" + i, manager));
+            threads.add(thread);
         }
-        catch ( Exception e)
-        {
-            System.out.println("interrupted !");
-        }
-        System.out.println("Completed Downloads !");
 
+        //Start all Threads
+        for(Thread thread : threads)
+        {
+            thread.start();
+        }
+
+        //Wait for all threads to finish
+        for(Thread thread : threads) 
+        {
+            try{
+                thread.join();
+            }
+            catch (InterruptedException e)
+            {
+                System.out.println("interrupted");
+            }
+        }
+
+        System.out.println(manager.getCompletedDownloads());
+
+        // .start() creates own Threads and it runs concurrently
+        // .run() makes main create Thread and it runs sequentially rather than
+ 
+        // t[i].join() makes the main thread wait for other threads to finish
 
     }
 }
