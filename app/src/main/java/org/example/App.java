@@ -12,8 +12,17 @@ public class App {
        Thread t2 = new Thread(new DownloadTask("photo.png"));
        Thread t3 = new Thread(new DownloadTask("document.pdf"));
 
+
+       // .start() creates own Threads and it runs concurrently
        t1.start();
        t2.start();
        t3.start();
+
+       // .run() makes main create Thread and it runs sequentially rather than concurrently
+        //    t1.run();
+        //    t2.run();
+        //    t3.run();
+
+
     }
 }
