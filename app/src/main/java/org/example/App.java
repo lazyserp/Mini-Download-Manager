@@ -7,6 +7,9 @@ public class App {
     public static void main(String[] args) {
 
         System.out.println("Current Thread: " + Thread.currentThread().getName());
+        System.out.println();
+        System.out.println("Started Downloads !");
+        System.out.println();
 
        Thread t1 = new Thread(new DownloadTask("movie.mp4"));
        Thread t2 = new Thread(new DownloadTask("photo.png"));
@@ -22,6 +25,19 @@ public class App {
         //    t1.run();
         //    t2.run();
         //    t3.run();
+
+        // t[i].join() makes the main thread wait for other threads to finish 
+        try
+        {
+            t1.join();
+            t2.join();
+            t3.join();
+        }
+        catch ( Exception e)
+        {
+            System.out.println("interrupted !");
+        }
+        System.out.println("Completed Downloads !");
 
 
     }
