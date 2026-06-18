@@ -1,8 +1,10 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Future;
 
 public class App {
 
@@ -10,28 +12,30 @@ public class App {
 
         DownloadManager manager = new DownloadManager();
 
-        System.out.println("Started Downloads !");
-        System.out.println();
-
         // Create a pool with 10 worker threads
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
+        ArrayList<Future<DownloadResult>> futureList = new ArrayList<>();
+
+        System.out.println("Started Downloads ! \n");
+
         // Submit 1000 download tasks
         for (int i = 0; i < 1000; i++) {
-            executor.submit(new DownloadTask("file" + i, manager));
+            Future<DownloadResult> future = executor.submit(new DownloadTask("file" + i, manager));
+            futureList.add(future);
         }
 
         // No more tasks will be submitted
         executor.shutdown();
 
-        // Wait for all submitted tasks to complete
-        try {
-            if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-                System.out.println("Some tasks are still running...");
+        for (var future : futureList) {
+            try {
+                DownloadResult result = future.get();
+                System.out.println(result);
+
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            System.out.println("Main thread interrupted.");
-            Thread.currentThread().interrupt();
         }
 
         System.out.println();

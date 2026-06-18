@@ -1,6 +1,8 @@
 package org.example;
 
-public class DownloadTask implements Runnable{
+import java.util.concurrent.Callable;
+
+public class DownloadTask implements Callable<DownloadResult>{
     private String fileName;
     private DownloadManager downloadManager;
 
@@ -10,46 +12,17 @@ public class DownloadTask implements Runnable{
         this.downloadManager = downloadManager;
     }
 
-    public void run()
+    @Override
+    public DownloadResult call() throws Exception
     {
 
-        System.out.println(Thread.currentThread().getName() + " started Download "  + fileName );
+        long startTime = System.currentTimeMillis();
+        Thread.sleep(100);
+        long endTime = System.currentTimeMillis();
 
+        DownloadResult downloadResult = new DownloadResult(fileName,endTime-startTime,true);
+        downloadManager.incrementCompletedDownloads();
 
-        try
-            {
-                Thread.sleep(1);
-            }
-            catch( InterruptedException e)
-            {
-                System.out.println( "Interrupted !");
-            }
-
-        System.out.println();
-        // System.out.println( Thread.currentThread().getName() + " comepleted Download "  + fileName );
-
-            
-
-        //Simulating download Progress
-        // for(int i=0 ; i <= 10 ;i++)
-        // {
-        //     System.out.println("Downloading " + fileName + " " + i*10 + "%");
-        //     try
-        //     {
-        //         Thread.sleep(500);
-        //     }
-        //     catch( InterruptedException e)
-        //     {
-        //         System.out.println( "Interrupted !");
-        //     }
-
-        // }
-
-
-        //using synchronized keyword makes this funciton as a locked resrouce , only 1 thread at a time inside this
-        synchronized(this)
-        {
-            downloadManager.incrementCompletedDownloads();
-        }
+        return downloadResult;
     }
 }
