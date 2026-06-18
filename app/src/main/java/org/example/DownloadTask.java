@@ -10,23 +10,39 @@ public class DownloadTask implements Runnable{
 
     public void run()
     {
-        System.out.println("FileName:  " + fileName);
-        System.out.println("Thread Name: " + Thread.currentThread().getName());
-        System.out.println("Download Progress :");
-        System.out.println();
 
-        for(int i=0 ; i <= 10 ;i++)
-        {
-            System.out.println("Downloading " + fileName + " " + i*10 + "%");
-            try
+        System.out.println("Thread " + Thread.currentThread().getName() + " started Download "  + fileName );
+
+
+        try
             {
-                Thread.sleep(500);
+                Thread.sleep(1);
             }
             catch( InterruptedException e)
             {
                 System.out.println( "Interrupted !");
             }
 
-        }
+        System.out.println();
+        System.out.println("Thread " + Thread.currentThread().getName() + " comepleted Download "  + fileName );
+
+            
+
+        //Simulating download Progress
+        // for(int i=0 ; i <= 10 ;i++)
+        // {
+        //     System.out.println("Downloading " + fileName + " " + i*10 + "%");
+        //     try
+        //     {
+        //         Thread.sleep(500);
+        //     }
+        //     catch( InterruptedException e)
+        //     {
+        //         System.out.println( "Interrupted !");
+        //     }
+
+        // }
+
+
     }
 }
