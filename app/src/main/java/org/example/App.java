@@ -8,14 +8,9 @@ public class App {
 
         System.out.println("Current Thread: " + Thread.currentThread().getName());
 
-       DownloadTask d1 = new DownloadTask("movie.mp4");
-       DownloadTask d2 = new DownloadTask("photo.png");
-       DownloadTask d3= new DownloadTask("document.pdf");
-
-
-       Thread t1 = new Thread(d1);
-       Thread t2 = new Thread(d2);
-       Thread t3 = new Thread(d3);
+       Thread t1 = new Thread(new DownloadTask("movie.mp4"));
+       Thread t2 = new Thread(new DownloadTask("photo.png"));
+       Thread t3 = new Thread(new DownloadTask("document.pdf"));
 
        t1.start();
        t2.start();
