@@ -45,6 +45,11 @@ public class DownloadTask implements Runnable{
 
         // }
 
-        downloadManager.incrementCompletedDownloads();
+
+        //using synchronized keyword makes this funciton as a locked resrouce , only 1 thread at a time inside this
+        synchronized(this)
+        {
+            downloadManager.incrementCompletedDownloads();
+        }
     }
 }
