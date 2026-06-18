@@ -13,7 +13,7 @@ public class DownloadTask implements Runnable{
     public void run()
     {
 
-        System.out.println("Thread " + Thread.currentThread().getName() + " started Download "  + fileName );
+        System.out.println(Thread.currentThread().getName() + " started Download "  + fileName );
 
 
         try
@@ -26,7 +26,7 @@ public class DownloadTask implements Runnable{
             }
 
         System.out.println();
-        System.out.println("Thread " + Thread.currentThread().getName() + " comepleted Download "  + fileName );
+        // System.out.println( Thread.currentThread().getName() + " comepleted Download "  + fileName );
 
             
 
